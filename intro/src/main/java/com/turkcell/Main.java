@@ -75,5 +75,12 @@ public class Main {
             System.out.println(student);
         }
 
+        int whileDongusu = 0;
+        while(whileDongusu < 5) {
+            System.out.println("While: " +whileDongusu);
+            whileDongusu++;
+        }
+
+
     }
 }
