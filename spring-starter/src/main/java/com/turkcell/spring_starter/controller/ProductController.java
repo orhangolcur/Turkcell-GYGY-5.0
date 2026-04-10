@@ -40,9 +40,18 @@ public class ProductController {
     }
 
     @PutMapping
-    public void updateProduct(@RequestBody Product product) {}
+    public void updateProduct(@RequestBody Product product) {
+
+        Product existingProduct = productList.stream()
+                .filter(p -> p.getId() == product.getId())
+                .findFirst()
+                .orElseThrow();
+
+        existingProduct.setName(product.getName());
+        existingProduct.setPrice(product.getPrice());        
+    }
 
     @DeleteMapping("/{id}")
     public void deleteProduct(@PathVariable int id) {}
-    
+        
 }
