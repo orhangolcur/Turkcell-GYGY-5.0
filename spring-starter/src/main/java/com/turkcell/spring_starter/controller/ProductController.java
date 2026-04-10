@@ -52,6 +52,8 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable int id) {}
+    public void deleteProduct(@PathVariable int id) {
+        productList.removeIf(p -> p.getId() == id);
+    }
         
 }
