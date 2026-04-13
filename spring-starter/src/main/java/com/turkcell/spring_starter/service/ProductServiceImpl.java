@@ -22,7 +22,7 @@ public class ProductServiceImpl {
         product.setName(productForCreateDto.getName());
         product.setPrice(productForCreateDto.getPrice());
 
-        productList.add(product);
+        productList.add(product); // repo
 
         ProductCreatedResponse response = new ProductCreatedResponse();
         response.setId(product.getId());
