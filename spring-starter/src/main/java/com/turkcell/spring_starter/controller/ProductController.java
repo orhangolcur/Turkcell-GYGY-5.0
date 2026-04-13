@@ -12,64 +12,24 @@ import org.springframework.web.bind.annotation.RestController;
 import com.turkcell.spring_starter.dto.ProductCreatedResponse;
 import com.turkcell.spring_starter.dto.ProductForCreateDto;
 import com.turkcell.spring_starter.model.Product;
+import com.turkcell.spring_starter.service.ProductServiceImpl;
 
 // Veritabanı nesneleri request'te ve response'ta kullanılmaz. DTO (Data Transfer Object) kullanılır.
-@RestController
+@RestController // Uygulama gerektiğinde controller'ı newler
 @RequestMapping("/api/product")
 public class ProductController {
 
-    // In-Memory 
-    private List<Product> productList = new ArrayList<>();
+    // Dependency Injection (Bağımlılık Enjeksiyonu)
+    private final ProductServiceImpl productService;
 
-    @GetMapping()
-    public List<Product> getAll() {
-        return productList;
+    public ProductController(ProductServiceImpl productService) {
+        this.productService = productService;
     }
 
-    @GetMapping("/{id}")
-    public Product getProductById(@PathVariable int id) {
-        return productList.stream()
-                .filter(p -> p.getId() == id)
-                .findFirst()
-                .orElse(null);
-    }
-
-    // Request-Response Pattern => Her istek-cevap kendine has bir modele sahip olmak zorundadır. (DTO)
-    @PostMapping()
-    public ProductCreatedResponse createProduct(@RequestBody ProductForCreateDto productDto) {
-        // Dışarıdan alınan DTO'yu domain modeline(entity, model) dönüştürme işlemi yapılır.
-        // MANUEL MAPPING
-        Product product = new Product();
-        product.setName(productDto.getName());
-        product.setPrice(productDto.getPrice());
-        product.setId(productList.size() + 1);
-        productList.add(product);
-
-        // Domain Nesnesi => DTO
-        ProductCreatedResponse response = new ProductCreatedResponse();
-        response.setId(product.getId());
-        response.setName(product.getName());
-        response.setPrice(product.getPrice());
-
-        return response;
-
-    }
-
-    @PutMapping
-    public void updateProduct(@RequestBody Product product) {
-
-        Product existingProduct = productList.stream()
-                .filter(p -> p.getId() == product.getId())
-                .findFirst()
-                .orElseThrow();
-
-        existingProduct.setName(product.getName());
-        existingProduct.setPrice(product.getPrice());        
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable int id) {
-        productList.removeIf(p -> p.getId() == id);
+    // Controller'da iş mantığı olmaz, sadece request'i alır ve service'e iletir. Service'de iş mantığı olur.
+    @PostMapping
+    public ProductCreatedResponse create (@RequestBody ProductForCreateDto productForCreateDto) {
+        return productService.create(productForCreateDto);
     }
         
 }
