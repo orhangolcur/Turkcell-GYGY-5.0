@@ -17,7 +17,7 @@ ON o.customer_id = c.customer_id;
 --
 
 INSERT INTO customers(customer_id, company_name, contact_name, contact_title, address, city, postal_code,country,phone,fax)
-VALUES ('HALIT', 'Deneme', 'Halit Kalaycı', 'Abc','Abc','İstanbul','34788','Türkiye','+90', 'abc');
+VALUES ('ORHAN', 'Deneme', 'Orhan Gölcür', 'Abc','Abc','Eskişehir','26170','Türkiye','+90', 'abc');
 
 ---
 SELECT * FROM orders o
@@ -79,3 +79,20 @@ ORDER BY total_orders DESC;
 
 
 -- Çalışan bazlı toplam satış tutarı (birim fiyat)
+
+
+
+-- Sayfalama (Pagination)
+SELECT * from products p
+LIMIT 10
+--
+Select * from products p
+LIMIT 10 OFFSET 5
+--
+
+-- LIMIT {sayfa_başı_element} OFFSET {(aktif_sayfa-1) * sayfa_başı_element}
+Select * from products p
+LIMIT 10 OFFSET 0
+
+Select * from products p
+LIMIT 10 OFFSET 10
