@@ -1,16 +1,34 @@
 package com.turkcell.spring_starter.model;
 
-// Entity, Domain Model, Model => Veritabanı nesnesinin temsilcisi
-public class Product {
-    private int id;
-    private String name;
-    private double price;
+import java.util.UUID;
 
-    public int getId() {
+import org.hibernate.annotations.UuidGenerator;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "products")
+public class Product {
+    //@GeneratedValue(strategy = GenerationType.IDENTITY) -> 1'er artarak id oluşturur
+    @Id
+    @UuidGenerator()
+    @Column(name = "id")
+    private UUID id;
+
+    @Column(name = "name", nullable = false, length = 100)
+    private String name;
+
+    @Column(name = "description",length = 500)
+    private String description;
+
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -22,11 +40,13 @@ public class Product {
         this.name = name;
     }
 
-    public double getPrice() {
-        return price;
+    public String getDescription() {
+        return description;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setDescription(String description) {
+        this.description = description;
     }
+
+    
 }
