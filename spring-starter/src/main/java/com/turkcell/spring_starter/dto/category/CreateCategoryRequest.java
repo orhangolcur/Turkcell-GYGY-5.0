@@ -1,4 +1,4 @@
-package com.turkcell.spring_starter.dto;
+package com.turkcell.spring_starter.dto.category;
 
 public class CreateCategoryRequest {
     private String name;

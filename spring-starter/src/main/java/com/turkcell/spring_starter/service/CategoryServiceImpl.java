@@ -1,10 +1,16 @@
 package com.turkcell.spring_starter.service;
 
 import java.util.List;
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
-import com.turkcell.spring_starter.dto.CreateCategoryRequest;
-import com.turkcell.spring_starter.dto.CreatedCategoryResponse;
-import com.turkcell.spring_starter.dto.ListCategoryResponse;
+
+import com.turkcell.spring_starter.dto.category.CreateCategoryRequest;
+import com.turkcell.spring_starter.dto.category.CreatedCategoryResponse;
+import com.turkcell.spring_starter.dto.category.GetByIdCategoryResponse;
+import com.turkcell.spring_starter.dto.category.ListCategoryResponse;
+import com.turkcell.spring_starter.dto.category.UpdateCategoryRequest;
+import com.turkcell.spring_starter.dto.category.UpdatedCategoryResponse;
 import com.turkcell.spring_starter.entity.Category;
 import com.turkcell.spring_starter.repository.CategoryRepository;
 
@@ -44,4 +50,32 @@ public class CategoryServiceImpl {
 
         return response;
     }
+
+    public GetByIdCategoryResponse getById(UUID id) {
+        Category category = this.categoryRepository.findById(id).orElseThrow();
+
+        GetByIdCategoryResponse response = new GetByIdCategoryResponse();
+        response.setId(category.getId());
+        response.setName(category.getName());
+        return response;
+    }
+
+    public UpdatedCategoryResponse update(UpdateCategoryRequest request) {
+        Category category = this.categoryRepository.findById(request.getId()).orElseThrow();
+        category.setName(request.getName());
+
+        this.categoryRepository.save(category);
+
+        UpdatedCategoryResponse response = new UpdatedCategoryResponse();
+        response.setId(category.getId());
+        response.setName(category.getName());
+        return response;
+    }
+
+    public void delete(UUID id) {
+        Category category = this.categoryRepository.findById(id).orElseThrow();
+
+        this.categoryRepository.delete(category);
+    }
+
 }
