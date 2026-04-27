@@ -1,0 +1,54 @@
+package com.turkcell.spring_starter.controller;
+
+import java.util.List;
+import java.util.UUID;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import com.turkcell.spring_starter.dto.tag.CreateTagRequest;
+import com.turkcell.spring_starter.dto.tag.CreatedTagResponse;
+import com.turkcell.spring_starter.dto.tag.GetByIdTagResponse;
+import com.turkcell.spring_starter.dto.tag.ListTagResponse;
+import com.turkcell.spring_starter.dto.tag.UpdateTagRequest;
+import com.turkcell.spring_starter.dto.tag.UpdatedTagResponse;
+import com.turkcell.spring_starter.service.TagServiceImpl;
+
+@RestController
+@RequestMapping("/api/tags")
+public class TagsController {
+    private final TagServiceImpl tagService;
+
+    public TagsController(TagServiceImpl tagService) {
+        this.tagService = tagService;
+    }
+
+        @PostMapping
+    public CreatedTagResponse create(@RequestBody CreateTagRequest request) {
+        return this.tagService.create(request);
+    }
+
+    @GetMapping
+    public List<ListTagResponse> getAll() {
+        return this.tagService.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public GetByIdTagResponse getById(@PathVariable UUID id) {
+        return this.tagService.getById(id);
+    }
+
+    @PutMapping("/{id}")
+    public UpdatedTagResponse update(@PathVariable UUID id, @RequestBody UpdateTagRequest request) {
+        return this.tagService.update(id, request);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable UUID id) {
+        this.tagService.delete(id);
+    }
+}
