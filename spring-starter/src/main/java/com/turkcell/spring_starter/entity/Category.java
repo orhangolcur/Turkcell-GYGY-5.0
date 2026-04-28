@@ -14,8 +14,8 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "categories")
 public class Category {
-    @Id
-    @UuidGenerator()
+    @Id // PK
+    @UuidGenerator() // Hibernate otomatik UUID üretir
     @Column(name = "id")
     private UUID id;
 

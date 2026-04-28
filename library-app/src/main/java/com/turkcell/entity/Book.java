@@ -15,7 +15,7 @@ public class Book {
     private UUID id;
 
     @Column(name = "isbn", nullable = false, length = 20)
-    private String isbn;
+    private String isbn; // International Standard Book Number(her kitaba özgü)
 
     @Column(name = "title", nullable = false, length = 255)
     private String title;
@@ -38,6 +38,7 @@ public class Book {
     )
     private Set<Author> authors;
 
+    // Getters and Setters
     public UUID getId() { return id; }
     public void setId(UUID id) { this.id = id; }
     public String getIsbn() { return isbn; }

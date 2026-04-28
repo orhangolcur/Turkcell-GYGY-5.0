@@ -27,6 +27,7 @@ public class Author {
     @ManyToMany(mappedBy = "authors")
     private Set<Book> books;
 
+    // Getters and Setters
     public UUID getId() { return id; }
     public void setId(UUID id) { this.id = id; }
     public String getFirstName() { return firstName; }

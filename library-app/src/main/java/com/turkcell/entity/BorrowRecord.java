@@ -33,7 +33,8 @@ public class BorrowRecord {
 
     @Column(name = "status", nullable = false, length = 20)
     private String status; // active, returned, overdue
-
+    
+    // Getters and Setters
     public UUID getId() { return id; }
     public void setId(UUID id) { this.id = id; }
     public Student getStudent() { return student; }
