@@ -43,7 +43,7 @@ public class CategoriesController {
     }
 
     @PutMapping("/{id}")
-    public UpdatedCategoryResponse update(@PathVariable UUID id, UpdateCategoryRequest request) {
+    public UpdatedCategoryResponse update(@PathVariable UUID id, @RequestBody UpdateCategoryRequest request) {
         return this.categoryService.update(id, request);
     }
 
