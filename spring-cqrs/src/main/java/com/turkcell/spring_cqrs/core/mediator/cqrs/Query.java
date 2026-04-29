@@ -1,5 +1,4 @@
 package com.turkcell.spring_cqrs.core.mediator.cqrs;
 
-public interface Query<R> {
-
-}
+// Query => Sadece veri çekme işlemleri (Read)
+public interface Query<R> {}

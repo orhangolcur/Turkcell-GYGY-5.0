@@ -2,11 +2,14 @@ package com.turkcell.spring_cqrs.core.mediator;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.ResolvableType;
+import org.springframework.stereotype.Component;
+
 import com.turkcell.spring_cqrs.core.mediator.cqrs.Command;
 import com.turkcell.spring_cqrs.core.mediator.cqrs.CommandHandler;
 import com.turkcell.spring_cqrs.core.mediator.cqrs.Query;
 import com.turkcell.spring_cqrs.core.mediator.cqrs.QueryHandler;
 
+@Component
 public class SpringMediator implements Mediator{
 
     private final ApplicationContext context;
@@ -31,14 +34,29 @@ public class SpringMediator implements Mediator{
 
     // Hangi command/query -> hangi handler
     private Object resolveHandler(Class<?> requestType, Class<?> handlerInterface) {
-        ResolvableType handlerType = ResolvableType.forClassWithGenerics(handlerInterface, requestType);
 
-        String[] beans = context.getBeanNamesForType(handlerType);
+        String[] beanNames = context.getBeanNamesForType(handlerInterface);
 
-        if(beans.length == 0)
-            throw new IllegalStateException("Handler bulunamadı" + requestType.getSimpleName());
+        for(String beanName: beanNames)
+        {
+            Class<?> beanClass = context.getType(beanName);
+            if(beanClass == null) continue;
 
-        return context.getBean(beans[0]);
+            ResolvableType[] interfaces = ResolvableType.forClass(beanClass).getInterfaces();
+
+            for(ResolvableType iface: interfaces)
+            {
+                if(iface.getRawClass() != null && handlerInterface.isAssignableFrom(iface.getRawClass()))
+                {
+                    Class<?> firstGeneric = iface.getGeneric(0).resolve();
+
+                    if(firstGeneric != null && firstGeneric.equals(requestType))
+                        return context.getBean(beanName);
+                }
+            }
+        }
+        throw new IllegalStateException("Handler bulunamadı." + requestType.getSimpleName());
     }
+
 
 }
