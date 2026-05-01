@@ -9,10 +9,10 @@ import com.turkcell.library_cqrs_app.core.mediator.cqrs.Query;
 import com.turkcell.library_cqrs_app.core.mediator.cqrs.QueryHandler;
 
 @Component
-public class SpringMediator implements Mediator{
+public class SpringMediator implements Mediator {
 
     ApplicationContext context;
-    
+
     public SpringMediator(ApplicationContext context) {
         this.context = context;
     }
@@ -33,20 +33,18 @@ public class SpringMediator implements Mediator{
 
         String[] beanNames = context.getBeanNamesForType(handlerInterface);
 
-        for(String beanName: beanNames)
-        {
+        for (String beanName : beanNames) {
             Class<?> beanClass = context.getType(beanName);
-            if(beanClass == null) continue;
+            if (beanClass == null)
+                continue;
 
             ResolvableType[] interfaces = ResolvableType.forClass(beanClass).getInterfaces();
 
-            for(ResolvableType iface: interfaces)
-            {
-                if(iface.getRawClass() != null && handlerInterface.isAssignableFrom(iface.getRawClass()))
-                {
+            for (ResolvableType iface : interfaces) {
+                if (iface.getRawClass() != null && handlerInterface.isAssignableFrom(iface.getRawClass())) {
                     Class<?> firstGeneric = iface.getGeneric(0).resolve();
 
-                    if(firstGeneric != null && firstGeneric.equals(requestType))
+                    if (firstGeneric != null && firstGeneric.equals(requestType))
                         return context.getBean(beanName);
                 }
             }
