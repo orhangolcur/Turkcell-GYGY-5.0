@@ -7,5 +7,5 @@ import com.turkcell.library_cqrs_app.domain.entity.Category;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, UUID> {
-
+    boolean existsByName(String name);
 }

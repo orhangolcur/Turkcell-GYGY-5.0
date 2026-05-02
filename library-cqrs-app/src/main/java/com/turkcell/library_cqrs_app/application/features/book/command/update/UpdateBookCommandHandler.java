@@ -1,28 +1,49 @@
 package com.turkcell.library_cqrs_app.application.features.book.command.update;
 
+import java.util.HashSet;
+import java.util.List;
 import org.springframework.stereotype.Component;
+import com.turkcell.library_cqrs_app.application.features.author.AuthorBusinessRules;
+import com.turkcell.library_cqrs_app.application.features.book.BookBusinessRules;
+import com.turkcell.library_cqrs_app.application.features.category.CategoryBusinessRules;
 import com.turkcell.library_cqrs_app.core.mediator.cqrs.CommandHandler;
+import com.turkcell.library_cqrs_app.domain.entity.Author;
+import com.turkcell.library_cqrs_app.domain.entity.Category;
+import com.turkcell.library_cqrs_app.persistence.repository.AuthorRepository;
 import com.turkcell.library_cqrs_app.persistence.repository.BookRepository;
+import com.turkcell.library_cqrs_app.persistence.repository.CategoryRepository;
 
 @Component
 public class UpdateBookCommandHandler implements CommandHandler<UpdateBookCommand, UpdateBookResponse> {
 
     private final BookRepository bookRepository;
+    private final BookBusinessRules bookBusinessRules;
+    private final CategoryBusinessRules categoryBusinessRules;
+    private final AuthorBusinessRules authorBusinessRules;
 
-    public UpdateBookCommandHandler(BookRepository bookRepository) {
+    public UpdateBookCommandHandler(BookRepository bookRepository, BookBusinessRules bookBusinessRules,
+            CategoryBusinessRules categoryBusinessRules, AuthorBusinessRules authorBusinessRules) {
         this.bookRepository = bookRepository;
+        this.bookBusinessRules = bookBusinessRules;
+        this.categoryBusinessRules = categoryBusinessRules;
+        this.authorBusinessRules = authorBusinessRules;
     }
 
     @Override
     public UpdateBookResponse handle(UpdateBookCommand command) {
-        var book = bookRepository.findById(command.id())
-                .orElseThrow(() -> new RuntimeException("Book not found"));
+        var book = bookBusinessRules.getByIdOrThrow(command.id());
+        bookBusinessRules.isbnMustBeUniqueForUpdate(command.id(), command.isbn());
+
+        Category category = categoryBusinessRules.getByIdOrThrow(command.categoryId());
+
+        List<Author> authors = authorBusinessRules.getAllByIdsOrThrow(command.authorIds());
 
         book.setTitle(command.title());
         book.setIsbn(command.isbn());
         book.setStock(command.stock());
         book.setPublishYear(command.publishYear());
-
+        book.setCategory(category);
+        book.setAuthors(new HashSet<>(authors));
         bookRepository.save(book);
 
         return new UpdateBookResponse(
@@ -30,6 +51,8 @@ public class UpdateBookCommandHandler implements CommandHandler<UpdateBookComman
                 book.getTitle(),
                 book.getIsbn(),
                 book.getStock(),
-                book.getPublishYear());
+                book.getPublishYear(),
+                book.getCategory() != null ? book.getCategory().getName() : null,
+                authors.stream().map(author -> author.getFirstName() + " " + author.getLastName()).toList());
     }
 }

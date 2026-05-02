@@ -19,8 +19,8 @@ import com.turkcell.library_cqrs_app.application.features.book.command.update.Up
 import com.turkcell.library_cqrs_app.application.features.book.command.update.UpdateBookResponse;
 import com.turkcell.library_cqrs_app.application.features.book.query.getall.GetAllBookQuery;
 import com.turkcell.library_cqrs_app.application.features.book.query.getall.GetAllBookResponse;
-import com.turkcell.library_cqrs_app.application.features.book.query.geybyid.GetByIdBookQuery;
-import com.turkcell.library_cqrs_app.application.features.book.query.geybyid.GetByIdBookResponse;
+import com.turkcell.library_cqrs_app.application.features.book.query.getbyid.GetByIdBookQuery;
+import com.turkcell.library_cqrs_app.application.features.book.query.getbyid.GetByIdBookResponse;
 import com.turkcell.library_cqrs_app.core.mediator.Mediator;
 
 @RestController
@@ -55,7 +55,9 @@ public class BookController {
                 command.title(),
                 command.isbn(),
                 command.stock(),
-                command.publishYear()));
+                command.publishYear(),
+                command.categoryId(),
+                command.authorIds()));
     }
 
     @DeleteMapping("/{id}")

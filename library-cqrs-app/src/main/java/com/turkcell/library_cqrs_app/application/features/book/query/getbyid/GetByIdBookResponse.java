@@ -1,14 +1,15 @@
-package com.turkcell.library_cqrs_app.application.features.book.command.create;
+package com.turkcell.library_cqrs_app.application.features.book.query.getbyid;
 
 import java.util.List;
 import java.util.UUID;
 
-public record CreateBookResponse(
+public record GetByIdBookResponse(
         UUID id,
-        String isbn,
         String title,
+        String isbn,
         int stock,
         int publishYear,
         String categoryName,
         List<String> authorNames) {
+
 }

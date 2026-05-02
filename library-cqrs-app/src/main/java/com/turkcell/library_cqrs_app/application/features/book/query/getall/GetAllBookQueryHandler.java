@@ -22,7 +22,11 @@ public class GetAllBookQueryHandler implements QueryHandler<GetAllBookQuery, Lis
                         book.getIsbn(),
                         book.getTitle(),
                         book.getStock(),
-                        book.getPublishYear()))
+                        book.getPublishYear(),
+                        book.getCategory() != null ? book.getCategory().getName() : null,
+                        book.getAuthors() != null ? book.getAuthors().stream()
+                                .map(author -> author.getFirstName() + " " + author.getLastName())
+                                .toList() : List.of()))
                 .toList();
     }
 
