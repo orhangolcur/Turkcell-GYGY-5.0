@@ -23,6 +23,8 @@ import com.turkcell.library_cqrs_app.application.features.book.query.getbyid.Get
 import com.turkcell.library_cqrs_app.application.features.book.query.getbyid.GetByIdBookResponse;
 import com.turkcell.library_cqrs_app.core.mediator.Mediator;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/books")
 public class BookController {
@@ -34,7 +36,7 @@ public class BookController {
     }
 
     @PostMapping
-    public CreateBookResponse create(@RequestBody CreateBookCommand command) {
+    public CreateBookResponse create(@RequestBody @Valid CreateBookCommand command) {
         return mediator.send(command);
     }
 
@@ -49,7 +51,7 @@ public class BookController {
     }
 
     @PutMapping("/{id}")
-    public UpdateBookResponse update(@PathVariable UUID id, @RequestBody UpdateBookCommand command) {
+    public UpdateBookResponse update(@PathVariable UUID id, @RequestBody @Valid UpdateBookCommand command) {
         return mediator.send(new UpdateBookCommand(
                 id,
                 command.title(),

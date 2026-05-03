@@ -24,6 +24,8 @@ import com.turkcell.library_cqrs_app.application.features.author.query.getbyid.G
 import com.turkcell.library_cqrs_app.application.features.author.query.getbyid.GetByIdAuthorResponse;
 import com.turkcell.library_cqrs_app.core.mediator.Mediator;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/authors")
 public class AuthorController {
@@ -45,12 +47,12 @@ public class AuthorController {
     }
 
     @PostMapping
-    public CreateAuthorResponse create(@RequestBody CreateAuthorCommand command) {
+    public CreateAuthorResponse create(@RequestBody @Valid CreateAuthorCommand command) {
         return mediator.send(command);
     }
 
     @PutMapping("/{id}")
-    public UpdateAuthorResponse update(@PathVariable UUID id, @RequestBody UpdateAuthorCommand command) {
+    public UpdateAuthorResponse update(@PathVariable UUID id, @RequestBody @Valid UpdateAuthorCommand command) {
         return mediator.send(new UpdateAuthorCommand(id, command.firstName(), command.lastName()));
     }
 

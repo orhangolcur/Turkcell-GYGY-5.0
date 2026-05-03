@@ -11,6 +11,8 @@ import com.turkcell.library_cqrs_app.application.features.auth.command.register.
 import com.turkcell.library_cqrs_app.application.features.auth.command.register.RegisterResponse;
 import com.turkcell.library_cqrs_app.core.mediator.Mediator;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -22,12 +24,12 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public RegisterResponse register(@RequestBody RegisterCommand command) {
+    public RegisterResponse register(@RequestBody @Valid RegisterCommand command) {
         return mediator.send(command);
     }
 
     @PostMapping("/login")
-    public LoginResponse login(@RequestBody LoginCommand command) {
+    public LoginResponse login(@RequestBody @Valid LoginCommand command) {
         return mediator.send(command);
     }
 }

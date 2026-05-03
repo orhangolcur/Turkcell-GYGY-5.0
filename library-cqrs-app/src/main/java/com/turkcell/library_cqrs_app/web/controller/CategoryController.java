@@ -24,6 +24,8 @@ import com.turkcell.library_cqrs_app.application.features.category.query.getbyid
 import com.turkcell.library_cqrs_app.application.features.category.query.getbyid.GetByIdCategoryResponse;
 import com.turkcell.library_cqrs_app.core.mediator.Mediator;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/categories")
 public class CategoryController {
@@ -35,7 +37,7 @@ public class CategoryController {
     }
 
     @PostMapping
-    public CreateCategoryResponse create(@RequestBody CreateCategoryCommand command) {
+    public CreateCategoryResponse create(@RequestBody @Valid CreateCategoryCommand command) {
         return mediator.send(command);
     }
 
@@ -50,7 +52,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public UpdateCategoryResponse update(@PathVariable UUID id, @RequestBody UpdateCategoryCommand command) {
+    public UpdateCategoryResponse update(@PathVariable UUID id, @RequestBody @Valid UpdateCategoryCommand command) {
         return mediator.send(new UpdateCategoryCommand(id, command.name(), command.description()));
     }
 
