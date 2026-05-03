@@ -7,5 +7,5 @@ import com.turkcell.library_cqrs_app.domain.entity.Staff;
 
 @Repository
 public interface StaffRepository extends JpaRepository<Staff, UUID> {
-
+    boolean existsByFirstNameAndLastName(String firstName, String lastName);
 }

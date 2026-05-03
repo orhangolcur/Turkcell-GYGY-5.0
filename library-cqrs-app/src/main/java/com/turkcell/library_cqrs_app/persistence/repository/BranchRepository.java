@@ -7,5 +7,5 @@ import com.turkcell.library_cqrs_app.domain.entity.Branch;
 
 @Repository
 public interface BranchRepository extends JpaRepository<Branch, UUID> {
-
+    boolean existsByName(String name);
 }
