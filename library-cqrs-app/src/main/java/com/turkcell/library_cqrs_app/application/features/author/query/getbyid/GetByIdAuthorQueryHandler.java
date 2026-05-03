@@ -1,6 +1,8 @@
 package com.turkcell.library_cqrs_app.application.features.author.query.getbyid;
 
 import org.springframework.stereotype.Component;
+
+import com.turkcell.library_cqrs_app.core.exception.NotFoundException;
 import com.turkcell.library_cqrs_app.core.mediator.cqrs.QueryHandler;
 import com.turkcell.library_cqrs_app.persistence.repository.AuthorRepository;
 
@@ -20,7 +22,7 @@ public class GetByIdAuthorQueryHandler implements QueryHandler<GetByIdAuthorQuer
                         author.getId(),
                         author.getFirstName(),
                         author.getLastName()))
-                .orElseThrow(() -> new RuntimeException("Author not found with id: " + query.id()));
+                .orElseThrow(() -> new NotFoundException("Yazar bulunamadı"));
     }
 
 }

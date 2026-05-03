@@ -2,6 +2,7 @@ package com.turkcell.library_cqrs_app.application.features.category.query.getbyi
 
 import org.springframework.stereotype.Component;
 
+import com.turkcell.library_cqrs_app.core.exception.NotFoundException;
 import com.turkcell.library_cqrs_app.core.mediator.cqrs.QueryHandler;
 import com.turkcell.library_cqrs_app.persistence.repository.CategoryRepository;
 
@@ -17,7 +18,7 @@ public class GetByIdCategoryQueryHandler implements QueryHandler<GetByIdCategory
     @Override
     public GetByIdCategoryResponse handle(GetByIdCategoryQuery query) {
         var category = categoryRepository.findById(query.id())
-                .orElseThrow(() -> new RuntimeException("Category not found"));
+                .orElseThrow(() -> new NotFoundException("Kategori bulunamadı"));
 
         return new GetByIdCategoryResponse(
                 category.getId(),

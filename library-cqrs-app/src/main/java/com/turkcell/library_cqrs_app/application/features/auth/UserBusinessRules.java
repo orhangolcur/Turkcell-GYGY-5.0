@@ -1,6 +1,8 @@
 package com.turkcell.library_cqrs_app.application.features.auth;
 
 import org.springframework.stereotype.Component;
+import com.turkcell.library_cqrs_app.core.exception.AlreadyExistsException;
+import com.turkcell.library_cqrs_app.core.exception.BusinessException;
 import com.turkcell.library_cqrs_app.domain.entity.User;
 import com.turkcell.library_cqrs_app.persistence.repository.UserRepository;
 
@@ -15,12 +17,12 @@ public class UserBusinessRules {
 
     public void emailMustBeUnique(String email) {
         if (userRepository.existsByEmail(email)) {
-            throw new RuntimeException("Bu email zaten kullanılıyor: " + email);
+            throw new AlreadyExistsException("Bu email zaten kullanılıyor");
         }
     }
 
     public User getUserByEmailOrThrow(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Giriş bilgileri yanlış"));
+                .orElseThrow(() -> new BusinessException("Giriş bilgileri yanlış"));
     }
 }

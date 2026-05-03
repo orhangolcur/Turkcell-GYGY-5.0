@@ -2,6 +2,8 @@ package com.turkcell.library_cqrs_app.application.features.book.query.getbyid;
 
 import java.util.List;
 import org.springframework.stereotype.Component;
+
+import com.turkcell.library_cqrs_app.core.exception.NotFoundException;
 import com.turkcell.library_cqrs_app.core.mediator.cqrs.QueryHandler;
 import com.turkcell.library_cqrs_app.persistence.repository.BookRepository;
 
@@ -27,7 +29,7 @@ public class GetByIdQueryHandler implements QueryHandler<GetByIdBookQuery, GetBy
                         book.getAuthors() != null ? book.getAuthors().stream()
                                 .map(author -> author.getFirstName() + " " + author.getLastName())
                                 .toList() : List.of()))
-                .orElseThrow(() -> new RuntimeException("Book not found with id: " + query.id()));
+                .orElseThrow(() -> new NotFoundException("Kitap bulunamadı"));
     }
 
 }
