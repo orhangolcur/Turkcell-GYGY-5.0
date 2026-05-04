@@ -3,7 +3,6 @@ package com.turkcell.library_cqrs_app.application.features.book.command.create;
 import java.util.HashSet;
 import java.util.List;
 import org.springframework.stereotype.Component;
-
 import com.turkcell.library_cqrs_app.application.features.author.AuthorBusinessRules;
 import com.turkcell.library_cqrs_app.application.features.book.BookBusinessRules;
 import com.turkcell.library_cqrs_app.application.features.category.CategoryBusinessRules;
@@ -11,9 +10,7 @@ import com.turkcell.library_cqrs_app.core.mediator.cqrs.CommandHandler;
 import com.turkcell.library_cqrs_app.domain.entity.Author;
 import com.turkcell.library_cqrs_app.domain.entity.Book;
 import com.turkcell.library_cqrs_app.domain.entity.Category;
-import com.turkcell.library_cqrs_app.persistence.repository.AuthorRepository;
 import com.turkcell.library_cqrs_app.persistence.repository.BookRepository;
-import com.turkcell.library_cqrs_app.persistence.repository.CategoryRepository;
 
 @Component
 public class CreateBookCommandHandler implements CommandHandler<CreateBookCommand, CreateBookResponse> {

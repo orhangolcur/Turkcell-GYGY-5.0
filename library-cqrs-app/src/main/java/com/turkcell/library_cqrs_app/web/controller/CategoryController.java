@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.turkcell.library_cqrs_app.application.features.book.query.getbyid.GetByIdBookResponse;
 import com.turkcell.library_cqrs_app.application.features.category.command.create.CreateCategoryCommand;
 import com.turkcell.library_cqrs_app.application.features.category.command.create.CreateCategoryResponse;
 import com.turkcell.library_cqrs_app.application.features.category.command.delete.DeleteCategoryCommand;
@@ -23,7 +21,6 @@ import com.turkcell.library_cqrs_app.application.features.category.query.getall.
 import com.turkcell.library_cqrs_app.application.features.category.query.getbyid.GetByIdCategoryQuery;
 import com.turkcell.library_cqrs_app.application.features.category.query.getbyid.GetByIdCategoryResponse;
 import com.turkcell.library_cqrs_app.core.mediator.Mediator;
-
 import jakarta.validation.Valid;
 
 @RestController
